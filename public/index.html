@@ -29,7 +29,7 @@
     }
     .container {
       width: 100%;
-      max-width: 900px;
+      max-width: 960px;
     }
     .header {
       text-align: center;
@@ -81,6 +81,10 @@
       transform: translateY(-2px);
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
     }
+    .card.primary-card {
+      border: 2px solid var(--accent);
+      background: linear-gradient(135deg, #111a2e 0%, #172554 100%);
+    }
     .card-tag {
       align-self: flex-start;
       font-size: 0.75rem;
@@ -94,6 +98,11 @@
       background: rgba(16, 185, 129, 0.15);
       color: var(--accent-green);
       border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .tag-secondary {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.3);
     }
     .tag-v1 {
       background: rgba(148, 163, 184, 0.15);
@@ -133,21 +142,30 @@
     </div>
 
     <div class="grid">
-      <!-- V2 Modular (Recommended) -->
+      <!-- V3 Simple & Focused (Recommended) -->
+      <a href="/v3/" class="card primary-card">
+        <div>
+          <span class="card-tag tag-recommended">Version 3 &bull; Simple & Clean</span>
+          <h2>🎯 Simple Intake V-3</h2>
+          <p>Zero clutter. 6 visual slot cards, Name, Mobile Number, and instant confirmation. Tailored for non-technical front desk staff.</p>
+        </div>
+      </a>
+
+      <!-- V2 Modular Dashboard -->
       <a href="/v2/" class="card">
         <div>
-          <span class="card-tag tag-recommended">Version 2 &bull; Active</span>
+          <span class="card-tag tag-secondary">Version 2 &bull; Dashboard</span>
           <h2>📋 Reception Desk V-2</h2>
-          <p>Modular folder-driven CSS and JSON-driven declarative instructions. Fast phone booking, slot manager, and arrival check-in.</p>
+          <p>Full-featured dashboard with patient roster, filter tabs, check-in, and modular JSON-driven architecture.</p>
         </div>
       </a>
 
       <!-- V2 Doctor Queue -->
       <a href="/v2/queue.html" class="card">
         <div>
-          <span class="card-tag tag-recommended">Doctor Queue</span>
+          <span class="card-tag tag-secondary">Doctor Queue</span>
           <h2>🩺 Doctor Lounge Queue</h2>
-          <p>Live view of physically checked-in patients waiting in the lounge. One-touch call into consultation cabin.</p>
+          <p>Live view of checked-in patients waiting in the lounge with one-touch calling into consultation cabin.</p>
         </div>
       </a>
 
@@ -156,7 +174,7 @@
         <div>
           <span class="card-tag tag-v1">Version 1 &bull; Frozen</span>
           <h2>📦 Prototype V-1</h2>
-          <p>Original working prototype. Kept safe and untouched as the baseline reference.</p>
+          <p>Original working prototype. Kept safe and untouched as baseline reference.</p>
         </div>
       </a>
     </div>

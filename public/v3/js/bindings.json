@@ -1,0 +1,12 @@
+[
+  {
+    "event": "submit",
+    "selector": "#bookingForm",
+    "action": "onBookingSubmit"
+  },
+  {
+    "event": "click",
+    "selector": ".slot-card:not(.slot-full)",
+    "action": "onSlotSelect"
+  }
+]
