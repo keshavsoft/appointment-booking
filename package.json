@@ -1,0 +1,15 @@
+{
+  "name": "appointment-booking",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "dependencies": {
+    "sirv": "^3.0.2"
+  }
+}
