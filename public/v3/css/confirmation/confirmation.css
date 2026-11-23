@@ -1,52 +1,45 @@
-.confirmation-banner {
+.confirmation-box {
   display: none;
-  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
-  border: 2px solid #10b981;
-  border-radius: var(--radius-md);
-  padding: 20px 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-  animation: fadeIn 0.3s ease;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--accent-green);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-top: 18px;
+  animation: fadeIn 0.2s ease;
 }
 
-.confirmation-banner.active {
-  display: block;
-}
-
-.confirmation-content {
+.confirmation-box.active {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
 }
 
-.token-circle-badge {
-  width: 60px;
-  height: 60px;
+.token-badge-small {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #10b981;
   color: #ffffff;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+  flex-shrink: 0;
 }
 
-.confirmation-text h3 {
-  font-size: 1.3rem;
+.confirmation-msg-title {
+  font-size: 1rem;
+  font-weight: 800;
   color: #ffffff;
-  margin-bottom: 4px;
 }
 
-.confirmation-text p {
+.confirmation-msg-desc {
+  font-size: 0.85rem;
   color: #a7f3d0;
-  font-size: 0.95rem;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-8px); }
+  from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
 }

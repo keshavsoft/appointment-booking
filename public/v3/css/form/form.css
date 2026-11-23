@@ -1,60 +1,52 @@
-.booking-section {
+.right-booking-pane {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 24px;
-  box-shadow: var(--shadow-card);
-  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
 }
 
-.selected-slot-banner {
-  background: rgba(56, 189, 248, 0.1);
+.selected-slot-indicator {
+  background: rgba(56, 189, 248, 0.12);
   border: 1px solid var(--accent-blue);
   border-radius: var(--radius-sm);
   padding: 12px 16px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.95rem;
   color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-.selected-slot-banner strong {
+.selected-slot-indicator strong {
   color: var(--accent-blue);
-  font-size: 1.05rem;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 640px) {
-  .form-row {
-    grid-template-columns: 1fr;
-  }
+  font-size: 1.15rem;
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  margin-bottom: 18px;
 }
 
 .form-label {
+  display: block;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--text-muted);
+  margin-bottom: 6px;
 }
 
 .form-input {
+  width: 100%;
   background: var(--bg-input);
   border: 1px solid var(--border-color);
   color: #ffffff;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   padding: 14px 16px;
   border-radius: var(--radius-sm);
   outline: none;
@@ -66,32 +58,30 @@
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
 }
 
-.btn-book {
+.btn-book-submit {
   width: 100%;
   background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
   color: #ffffff;
   border: none;
-  padding: 16px 24px;
+  padding: 16px 20px;
   border-radius: var(--radius-sm);
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
-  transition: all 0.2s ease;
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+  transition: all 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  margin-top: 6px;
 }
 
-.btn-book:hover {
+.btn-book-submit:hover {
   background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
   transform: translateY(-1px);
 }
 
-.btn-book:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+.btn-book-submit:active {
+  transform: translateY(0);
 }

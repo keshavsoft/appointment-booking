@@ -1,30 +1,39 @@
-// DOM Rendering and Event Binder for V-3
+// DOM Rendering & Declarative Event Binder for V-3 Zero-Scroll Layout
 import { generateSlots } from "./booking.js";
-import { getSessionConfig, getTodayDateString } from "./storage.js";
+import { getSessionConfig, getTodayDateString, getBookings } from "./storage.js";
 
-export function renderHeader() {
+export function renderTopBar() {
   const config = getSessionConfig();
   const dateStr = getTodayDateString();
-  const dateEl = document.getElementById("todayDate");
-  const subEl = document.getElementById("headerSubtitle");
+  const bookings = getBookings();
+  const titleEl = document.getElementById("topBarTitle");
+  const detailsEl = document.getElementById("topBarDetails");
 
-  if (dateEl) dateEl.textContent = dateStr;
-  if (subEl) subEl.textContent = `${config.doctorName} • Today's Hours: ${config.startTime} AM – ${config.endTime} PM`;
+  if (titleEl) {
+    titleEl.textContent = `🩺 ${config.doctorName}`;
+  }
+  if (detailsEl) {
+    detailsEl.innerHTML = `
+      <span>📅 ${dateStr}</span>
+      <span>⏰ ${config.startTime} – ${config.endTime}</span>
+      <span>Booked: <strong>${bookings.length} / 30</strong></span>
+    `;
+  }
 }
 
 export function renderSlots(selectedSlotId) {
   const container = document.getElementById("slotsGrid");
-  const banner = document.getElementById("selectedSlotName");
+  const banner = document.getElementById("selectedSlotIndicator");
   if (!container) return null;
 
   const slots = generateSlots();
   container.innerHTML = "";
   let activeId = selectedSlotId;
 
-  // If active slot is not set or is full, pick first open slot
+  // Auto-pick first available slot if none selected or if selected is full
   if (!activeId || slots.find((s) => s.id === activeId)?.isFull) {
     const firstOpen = slots.find((s) => !s.isFull);
-    activeId = firstOpen ? firstOpen.id : null;
+    activeId = firstOpen ? firstOpen.id : (slots[0] ? slots[0].id : null);
   }
 
   slots.forEach((slot) => {
@@ -36,12 +45,12 @@ export function renderSlots(selectedSlotId) {
       card.classList.add("selected");
     }
 
-    let patientsHtml = "";
+    let chipsHtml = "";
     if (slot.patients.length > 0) {
-      patientsHtml = slot.patients
+      chipsHtml = slot.patients
         .map(
           (p) => `
-          <div class="slot-patient-item">
+          <div class="slot-chip-item">
             <span>#${p.tokenNumber} ${escapeHtml(p.patientName)}</span>
             <span>${escapeHtml(p.phoneNumber)}</span>
           </div>
@@ -49,23 +58,23 @@ export function renderSlots(selectedSlotId) {
         )
         .join("");
     } else {
-      patientsHtml = `<div class="slot-empty-notice">No bookings yet</div>`;
+      chipsHtml = `<div style="font-style:italic;color:var(--text-dim)">Open (0 Booked)</div>`;
     }
 
     card.innerHTML = `
-      <div class="slot-header">
-        <span class="slot-time">${slot.label}</span>
-        <span class="slot-count-badge">${slot.bookedCount} / ${slot.capacity} Booked</span>
+      <div class="slot-card-header">
+        <span class="slot-card-time">${slot.label}</span>
+        <span class="slot-badge">${slot.bookedCount} / ${slot.capacity} Booked</span>
       </div>
-      <div class="slot-patients-list">
-        ${patientsHtml}
+      <div class="slot-booked-chips">
+        ${chipsHtml}
       </div>
     `;
 
     container.appendChild(card);
   });
 
-  // Update selected slot banner
+  // Update selected slot banner on right panel
   const activeSlot = slots.find((s) => s.id === activeId);
   if (banner && activeSlot) {
     banner.textContent = activeSlot.label;
@@ -75,16 +84,15 @@ export function renderSlots(selectedSlotId) {
 }
 
 export function showConfirmation(booking) {
-  const banner = document.getElementById("confirmationBanner");
-  const tokenEl = document.getElementById("confirmToken");
-  const textEl = document.getElementById("confirmDetails");
+  const box = document.getElementById("confirmationBox");
+  const tokenBadge = document.getElementById("confirmTokenBadge");
+  const descEl = document.getElementById("confirmMsgDesc");
 
-  if (!banner) return;
-  tokenEl.textContent = booking.tokenNumber;
-  textEl.textContent = `Token #${booking.tokenNumber} confirmed for ${booking.patientName} (${booking.phoneNumber}) in Slot ${booking.slotLabel}`;
+  if (!box) return;
+  tokenBadge.textContent = booking.tokenNumber;
+  descEl.textContent = `Token #${booking.tokenNumber} allocated to ${booking.patientName} (${booking.phoneNumber}) for ${booking.slotLabel}`;
 
-  banner.classList.add("active");
-  banner.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  box.classList.add("active");
 }
 
 function escapeHtml(str) {

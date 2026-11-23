@@ -1,7 +1,7 @@
-// Actions for V-3
+// Actions for V-3 50/50 Zero-Scroll Layout
 import { addBooking } from "./storage.js";
 import { generateSlots } from "./booking.js";
-import { renderSlots, showConfirmation } from "./dom.js";
+import { renderSlots, renderTopBar, showConfirmation } from "./dom.js";
 
 export const state = {
   selectedSlotId: null
@@ -17,7 +17,7 @@ export const actions = {
 
     const slots = generateSlots();
     const activeSlot = slots.find((s) => s.id === slotId);
-    const banner = document.getElementById("selectedSlotName");
+    const banner = document.getElementById("selectedSlotIndicator");
     if (banner && activeSlot) {
       banner.textContent = activeSlot.label;
     }
@@ -62,6 +62,7 @@ export const actions = {
 
     showConfirmation(booking);
     state.selectedSlotId = renderSlots(state.selectedSlotId);
+    renderTopBar();
   }
 };
 

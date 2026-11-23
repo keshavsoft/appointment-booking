@@ -15,7 +15,7 @@ export function getSessionConfig() {
     endTime: "13:30",
     slotDurationMinutes: 30,
     maxPerSlot: 5,
-    doctorName: "Dr. Sharma"
+    doctorName: "Dr. Aditya"
   };
 }
 

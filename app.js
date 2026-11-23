@@ -1,8 +1,13 @@
 import http from "node:http";
+import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import sirv from "sirv";
 
-const PORT = Number(process.env.PORT) || 3002;
+if (fs.existsSync(".env")) {
+  process.loadEnvFile();
+}
+
+const PORT = Number(process.env.PORT) || 3004;
 const publicDir = fileURLToPath(new URL("./public/", import.meta.url));
 
 const serveStatic = sirv(publicDir, {

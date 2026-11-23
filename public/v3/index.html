@@ -11,64 +11,36 @@
   <link rel="stylesheet" href="./css/slots/slots.css">
   <link rel="stylesheet" href="./css/form/form.css">
   <link rel="stylesheet" href="./css/confirmation/confirmation.css">
-  <style>
-    .breadcrumb-nav {
-      margin-bottom: 16px;
-      font-size: 0.85rem;
-    }
-    .breadcrumb-nav a {
-      color: var(--accent-blue);
-      text-decoration: none;
-    }
-    .breadcrumb-nav a:hover {
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
-  <div class="app-wrapper">
-    <!-- Back to Gateway -->
-    <div class="breadcrumb-nav">
-      <a href="../">← CareCall Gateway</a>
-    </div>
-
-    <!-- Header -->
-    <header class="app-header">
-      <span class="brand-badge">CareCall V-3 &bull; Fast Phone Intake</span>
-      <h1 class="brand-title">Clinic Appointment Booking</h1>
-      <p class="brand-subtitle" id="headerSubtitle">Loading doctor hours...</p>
+  <div class="screen-container">
+    <!-- Slim Horizontal Topbar -->
+    <header class="slim-topbar">
+      <div class="slim-title" id="topBarTitle">🩺 Clinic Booking</div>
+      <div class="slim-details" id="topBarDetails">
+        <span>Loading session...</span>
+      </div>
     </header>
 
-    <!-- Instant Confirmation Banner -->
-    <section class="confirmation-banner" id="confirmationBanner">
-      <div class="confirmation-content">
-        <div style="display:flex;align-items:center;gap:16px;">
-          <div class="token-circle-badge" id="confirmToken">1</div>
-          <div class="confirmation-text">
-            <h3>✅ Appointment Confirmed!</h3>
-            <p id="confirmDetails">-</p>
-          </div>
+    <!-- 50 / 50 Equal Split Body (Zero-Scroll) -->
+    <main class="body-split">
+      <!-- LEFT 50%: 6 Slot Cards (2x3 Grid) -->
+      <section class="left-slots-pane">
+        <div class="slots-grid-2x3" id="slotsGrid">
+          <!-- Rendered dynamically by dom.js -->
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 1. Slot Selector Cards -->
-    <section>
-      <h2 class="section-title">1. Select a Time Slot</h2>
-      <div class="slots-grid" id="slotsGrid">
-        <!-- Rendered by dom.js -->
-      </div>
-    </section>
+      <!-- RIGHT 50%: Fast Booking Form & Confirmation -->
+      <section class="right-booking-pane">
+        <!-- Top Slot Indicator -->
+        <div class="selected-slot-indicator">
+          <span>Booking for Slot:</span>
+          <strong id="selectedSlotIndicator">Loading slot...</strong>
+        </div>
 
-    <!-- 2. Fast Phone Booking Form -->
-    <section class="booking-section">
-      <div class="selected-slot-banner">
-        <span>Booking for Slot:</span>
-        <strong id="selectedSlotName">Loading slot...</strong>
-      </div>
-
-      <form id="bookingForm" autocomplete="off">
-        <div class="form-row">
+        <!-- Form -->
+        <form id="bookingForm" autocomplete="off">
           <div class="form-group">
             <label class="form-label" for="patientName">Patient Full Name *</label>
             <input
@@ -92,13 +64,22 @@
               required
             >
           </div>
-        </div>
 
-        <button type="submit" class="btn-book" id="btnBookSubmit">
-          🎟 Confirm & Book Appointment
-        </button>
-      </form>
-    </section>
+          <button type="submit" class="btn-book-submit" id="btnBookSubmit">
+            🎟 BOOK SLOT (Enter)
+          </button>
+        </form>
+
+        <!-- Instant Confirmation Box (Appears right below on submit) -->
+        <div class="confirmation-box" id="confirmationBox">
+          <div class="token-badge-small" id="confirmTokenBadge">#</div>
+          <div>
+            <div class="confirmation-msg-title">✅ Booking Confirmed!</div>
+            <div class="confirmation-msg-desc" id="confirmMsgDesc">-</div>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 
   <!-- Entry Script using Declarative bindings.json & actions.js -->

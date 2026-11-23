@@ -1,10 +1,10 @@
-// Entry point for V-3 Simple Reception Booking
+// Entry point for V-3
 import bindings from "./bindings.json" with { type: "json" };
 import actions, { state } from "./actions.js";
-import { renderHeader, renderSlots, bindEvents } from "./dom.js";
+import { renderTopBar, renderSlots, bindEvents } from "./dom.js";
 
 function init() {
-  renderHeader();
+  renderTopBar();
   state.selectedSlotId = renderSlots(null);
   bindEvents(document.body, bindings, actions);
 
