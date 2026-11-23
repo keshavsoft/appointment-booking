@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareCall V-2 — Doctor Waiting Queue</title>
+  <link rel="stylesheet" href="./css/base/reset.css">
+  <link rel="stylesheet" href="./css/header/header.css">
+  <link rel="stylesheet" href="./css/form/form.css">
+  <link rel="stylesheet" href="./css/roster/roster.css">
+  <link rel="stylesheet" href="./css/nav/nav.css">
+  <style>
+    .queue-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .now-calling-card {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      border: 2px solid #3b82f6;
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25);
+    }
+    .queue-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .queue-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      transition: all 0.2s ease;
+    }
+    .queue-item:hover {
+      border-color: var(--accent-blue);
+      background: var(--bg-card-hover);
+    }
+    .queue-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .queue-token {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #1e3a8a;
+      color: #93c5fd;
+      font-size: 1.4rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #3b82f6;
+    }
+    .token-badge-large {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e40af 0%, #0369a1 100%);
+      border: 3px solid #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin: 0 auto 16px;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <div class="queue-container">
+    <div class="breadcrumb">
+      <a href="../">← CareCall Gateway</a>
+      <span>/</span>
+      <a href="./index.html">Reception V-2</a>
+      <span>/</span>
+      <span>Doctor Queue</span>
+    </div>
+
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon">🩺</span>
+        <div>
+          <h1 class="brand-title">Doctor Waiting Queue (V-2)</h1>
+          <div class="brand-subtitle">Patients Physically Waiting in Lounge</div>
+        </div>
+      </div>
+      <div>
+        <a href="./index.html" class="btn-secondary">← Back to Reception</a>
+      </div>
+    </header>
+
+    <div class="now-calling-card" id="nowCallingSection" style="display:none">
+      <div style="color:var(--text-muted);font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">
+        Currently Inside Cabin
+      </div>
+      <div class="token-badge-large" id="currentCabinToken" style="margin-bottom:12px">--</div>
+      <h2 id="currentCabinPatient" style="font-size:1.4rem;color:#ffffff">-</h2>
+      <button id="btnFinishCurrent" class="btn-secondary" style="margin-top:14px">✓ Finish Consultation</button>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div>
+          <h2 class="card-title">⏳ Waiting to Enter Cabin (<span id="waitingCount">0</span>)</h2>
+          <p class="card-subtitle" style="margin-bottom:0">Only checked-in patients appear here.</p>
+        </div>
+        <button id="btnCallNext" class="btn-primary" style="width:auto;padding:10px 20px">
+          📢 Call Next Patient
+        </button>
+      </div>
+
+      <div class="queue-list" id="queueList"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { getBookings, updateBookingStatus } from "./js/storage.js";
+
+    const queueList = document.getElementById("queueList");
+    const waitingCountEl = document.getElementById("waitingCount");
+    const btnCallNext = document.getElementById("btnCallNext");
+    const nowCallingSection = document.getElementById("nowCallingSection");
+    const currentCabinToken = document.getElementById("currentCabinToken");
+    const currentCabinPatient = document.getElementById("currentCabinPatient");
+    const btnFinishCurrent = document.getElementById("btnFinishCurrent");
+
+    function renderQueue() {
+      const bookings = getBookings();
+      const inCabin = bookings.find(b => b.status === "IN_CABIN");
+      const waiting = bookings.filter(b => b.status === "WAITING").sort((a,b) => a.tokenNumber - b.tokenNumber);
+
+      waitingCountEl.textContent = waiting.length;
+
+      if (inCabin) {
+        nowCallingSection.style.display = "block";
+        currentCabinToken.textContent = inCabin.tokenNumber;
+        currentCabinPatient.textContent = `${inCabin.patientName} (${inCabin.phoneNumber})`;
+        btnFinishCurrent.onclick = () => {
+          updateBookingStatus(inCabin.id, "COMPLETED");
+          renderQueue();
+        };
+      } else {
+        nowCallingSection.style.display = "none";
+      }
+
+      if (waiting.length === 0) {
+        queueList.innerHTML = `<div class="empty-state">No patients are currently waiting in the lounge.</div>`;
+        btnCallNext.disabled = true;
+        btnCallNext.style.opacity = "0.5";
+        return;
+      }
+
+      btnCallNext.disabled = false;
+      btnCallNext.style.opacity = "1";
+
+      queueList.innerHTML = waiting.map((b, idx) => `
+        <div class="queue-item">
+          <div class="queue-left">
+            <div class="queue-token">${b.tokenNumber}</div>
+            <div>
+              <div style="font-weight:700;font-size:1.05rem">${b.patientName}</div>
+              <div style="font-size:0.8rem;color:var(--text-muted)">Slot: ${b.slotLabel} · 📞 ${b.phoneNumber}</div>
+            </div>
+          </div>
+          <div>
+            <button class="btn-primary" style="padding:8px 16px;font-size:0.85rem" data-id="${b.id}">
+              ${idx === 0 ? "👉 Call Now" : "Call"}
+            </button>
+          </div>
+        </div>
+      `).join("");
+
+      queueList.querySelectorAll("button").forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.getAttribute("data-id");
+          if (inCabin) {
+            updateBookingStatus(inCabin.id, "COMPLETED");
+          }
+          updateBookingStatus(id, "IN_CABIN");
+          renderQueue();
+        };
+      });
+    }
+
+    btnCallNext.onclick = () => {
+      const bookings = getBookings();
+      const waiting = bookings.filter(b => b.status === "WAITING").sort((a,b) => a.tokenNumber - b.tokenNumber);
+      if (waiting.length > 0) {
+        const inCabin = bookings.find(b => b.status === "IN_CABIN");
+        if (inCabin) {
+          updateBookingStatus(inCabin.id, "COMPLETED");
+        }
+        updateBookingStatus(waiting[0].id, "IN_CABIN");
+        renderQueue();
+      }
+    };
+
+    setInterval(renderQueue, 2000);
+    renderQueue();
+  </script>
+</body>
+</html>

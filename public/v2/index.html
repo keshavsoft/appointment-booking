@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareCall V-2 — Reception Phone Booking & Check-In</title>
+
+  <!-- Modular Folder-Driven CSS -->
+  <link rel="stylesheet" href="./css/base/reset.css">
+  <link rel="stylesheet" href="./css/header/header.css">
+  <link rel="stylesheet" href="./css/form/form.css">
+  <link rel="stylesheet" href="./css/slots/slots.css">
+  <link rel="stylesheet" href="./css/roster/roster.css">
+  <link rel="stylesheet" href="./css/modal/modal.css">
+  <link rel="stylesheet" href="./css/nav/nav.css">
+</head>
+<body>
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb">
+    <a href="../">← CareCall Gateway</a>
+    <span>/</span>
+    <span>Reception V-2 (Modular)</span>
+  </div>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-icon">📋</span>
+      <div>
+        <h1 class="brand-title">CareCall Reception V-2</h1>
+        <div class="brand-subtitle">Phone Booking & Arrival Check-In</div>
+      </div>
+    </div>
+
+    <div class="header-stats">
+      <div class="stat-pill" id="todayDate">📅 Loading...</div>
+      <div class="stat-pill" id="doctorInfo">🩺 Loading...</div>
+      <div class="stat-pill">Total: <strong id="totalBookedCount">0</strong> / 30</div>
+      <div class="stat-pill">Waiting: <strong id="checkedInCount">0</strong></div>
+      <a href="./queue.html" class="btn-secondary" target="_blank">🩺 Doctor Queue ↗</a>
+      <button id="btnSeedDemo" class="btn-secondary">🌱 Seed Sample Data</button>
+      <button id="btnClearAll" class="btn-secondary" style="color:#f87171">🗑 Clear</button>
+    </div>
+  </header>
+
+  <!-- Main Split Layout -->
+  <main class="main-layout">
+    <!-- Left Column: Fast Phone Booking Form -->
+    <section class="card">
+      <h2 class="card-title">📞 New Phone Booking</h2>
+      <p class="card-subtitle">Take patient call, select slot, auto-assign token number.</p>
+
+      <form id="bookingForm" autocomplete="off">
+        <div class="form-group">
+          <label class="form-label" for="patientName">Patient Full Name *</label>
+          <input
+            type="text"
+            id="patientName"
+            class="form-input"
+            placeholder="e.g. Ramesh Kumar"
+            required
+            autofocus
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="phoneNumber">Mobile Number (10 digits) *</label>
+          <input
+            type="tel"
+            id="phoneNumber"
+            class="form-input"
+            placeholder="e.g. 9876543210"
+            pattern="[0-9]{10}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Available Slots for Today (5 max / slot)</label>
+          <div class="slots-grid" id="slotsContainer">
+            <!-- Dynamic Slot Options populated by dom.js -->
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btnBookSubmit">
+          🎟 Book & Assign Token (Enter)
+        </button>
+      </form>
+    </section>
+
+    <!-- Right Column: Today's Live Roster & Arrival Check-In -->
+    <section class="card">
+      <div class="roster-header">
+        <div>
+          <h2 class="card-title">👥 Today's Patient Roster</h2>
+          <p class="card-subtitle" style="margin-bottom:0">Click "Check In" when patient arrives at clinic.</p>
+        </div>
+
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            class="form-input"
+            placeholder="🔍 Search Token #, Name, Phone..."
+          >
+        </div>
+
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="ALL">All</button>
+          <button class="filter-tab" data-filter="WAITING">Waiting</button>
+          <button class="filter-tab" data-filter="BOOKED">Booked</button>
+          <button class="filter-tab" data-filter="COMPLETED">Done</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="roster-table">
+          <thead>
+            <tr>
+              <th style="width:70px">Token</th>
+              <th>Patient</th>
+              <th>Slot Time</th>
+              <th>Status</th>
+              <th style="width:130px">Action</th>
+            </tr>
+          </thead>
+          <tbody id="rosterTbody">
+            <!-- Dynamic rows populated by dom.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Confirmation Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-card">
+      <div class="token-badge-large" id="modalTokenNumber">4</div>
+      <h3 class="modal-title">Booking Confirmed!</h3>
+      <p style="color:var(--text-muted);font-size:0.9rem">Please inform the patient with their token number.</p>
+
+      <div class="modal-details">
+        <div>
+          <span>Patient Name:</span>
+          <strong id="modalPatientName">-</strong>
+        </div>
+        <div>
+          <span>Mobile Number:</span>
+          <strong id="modalPhoneNumber">-</strong>
+        </div>
+        <div>
+          <span>Allocated Slot:</span>
+          <strong id="modalSlotTime" style="color:var(--accent-blue)">-</strong>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" id="btnCopyWhatsApp">📋 Copy WhatsApp Msg</button>
+        <button class="btn-primary" id="btnCloseModal">Done (Esc)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Entry Script using Declarative bindings.json & actions.js -->
+  <script type="module" src="./js/index.js"></script>
+</body>
+</html>

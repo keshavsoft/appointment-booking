@@ -1,0 +1,57 @@
+[
+  {
+    "event": "submit",
+    "selector": "#bookingForm",
+    "action": "onBookingSubmit"
+  },
+  {
+    "event": "input",
+    "selector": "#searchInput",
+    "action": "onSearchFilter"
+  },
+  {
+    "event": "click",
+    "selector": ".filter-tab",
+    "action": "onFilterTabChange"
+  },
+  {
+    "event": "click",
+    "selector": "#btnSeedDemo",
+    "action": "onSeedDemoClick"
+  },
+  {
+    "event": "click",
+    "selector": "#btnClearAll",
+    "action": "onClearAllClick"
+  },
+  {
+    "event": "click",
+    "selector": "#btnCloseModal",
+    "action": "onCloseModalClick"
+  },
+  {
+    "event": "click",
+    "selector": "#btnCopyWhatsApp",
+    "action": "onCopyWhatsAppClick"
+  },
+  {
+    "event": "click",
+    "selector": ".btn-checkin",
+    "action": "onCheckInClick"
+  },
+  {
+    "event": "click",
+    "selector": ".btn-call",
+    "action": "onCallInClick"
+  },
+  {
+    "event": "click",
+    "selector": ".btn-done",
+    "action": "onDoneClick"
+  },
+  {
+    "event": "click",
+    "selector": ".slot-option:not(.slot-full)",
+    "action": "onSlotSelect"
+  }
+]
