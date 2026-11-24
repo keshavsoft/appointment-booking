@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareCall V-5 — Simple Clinic Register</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Minimal Clean CSS -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <!-- Minimal Topbar (Doctor Title & Date Only) -->
+  <header class="clinic-topbar">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <a href="../" class="btn btn-outline-secondary btn-sm py-1 px-2" title="Back to Gateway">
+          <i class="bi bi-arrow-left"></i> Hub
+        </a>
+        <div>
+          <span class="topbar-brand" id="sessionDoctorTitle">🩺 Dr. Aditya (MBBS, MD)</span>
+          <span class="text-muted small ms-2 d-none d-md-inline" id="sessionClinicTitle">CareCall Clinic</span>
+        </div>
+      </div>
+
+      <!-- Just Today's Date -->
+      <div>
+        <span id="sessionDateBadge" class="date-pill">📅 Loading...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Split Screen (Left: Register Table | Right: Vertical Entry) -->
+  <main class="container-fluid py-4">
+    <div class="row g-4">
+      <!-- LEFT 65%: Pure Read-Only Register Table (No buttons, no clutter) -->
+      <section class="col-lg-8">
+        <div class="register-card">
+          <div class="register-header d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0 text-dark">📋 Today's Patient Register</h5>
+            <small class="text-muted">Digital OPD Register</small>
+          </div>
+
+          <!-- Table Container -->
+          <div class="p-3">
+            <div id="left-table-content"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT 35%: Simple Vertical Entry Form -->
+      <section class="col-lg-4">
+        <div class="form-sticky-pane">
+          <!-- Form Container -->
+          <div id="right-form-content"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Entry Script -->
+  <script type="module" src="./js/index.js"></script>
+</body>
+</html>

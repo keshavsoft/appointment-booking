@@ -33,6 +33,7 @@ const server = http.createServer((req, res) => {
   else if (path === "/v2" || path === "/v2/") req.url = "/v2/index.html";
   else if (path === "/v3" || path === "/v3/") req.url = "/v3/index.html";
   else if (path === "/v4" || path === "/v4/") req.url = "/v4/index.html";
+  else if (path === "/v5" || path === "/v5/") req.url = "/v5/index.html";
 
   serveStatic(req, res);
 });
@@ -40,6 +41,7 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`CareCall Booking running on http://0.0.0.0:${PORT}`);
   console.log(`- Gateway Hub:    http://localhost:${PORT}/`);
+  console.log(`- Register V-5:   http://localhost:${PORT}/v5/`);
   console.log(`- Split V-4:      http://localhost:${PORT}/v4/`);
   console.log(`- Simple V-3:     http://localhost:${PORT}/v3/`);
   console.log(`- Reception V-2:  http://localhost:${PORT}/v2/`);
