@@ -1,0 +1,22 @@
+[
+  {
+    "event": "submit",
+    "selector": "#form-base-form-id",
+    "action": "onSavePatient"
+  },
+  {
+    "event": "click",
+    "selector": "#form-base-submit-button-id",
+    "action": "onSavePatient"
+  },
+  {
+    "event": "click",
+    "selector": "#btnSeedData",
+    "action": "onSeedData"
+  },
+  {
+    "event": "click",
+    "selector": "#btnClearToday",
+    "action": "onClearToday"
+  }
+]
